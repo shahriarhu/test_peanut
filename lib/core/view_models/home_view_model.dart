@@ -1,8 +1,11 @@
 import 'package:test_peanut/core/view_models/base_view_model.dart';
 import 'package:test_peanut/ui/views/dashboard_view.dart';
+import 'package:test_peanut/ui/views/promo_view.dart';
 import 'package:test_peanut/ui/views/trade_list_view.dart';
 
 class HomeViewModel extends BaseViewModel {
+  /// For bottom navigation bar
+
   int _currentPage = 0;
 
   int get currentPage => _currentPage;
@@ -18,6 +21,8 @@ class HomeViewModel extends BaseViewModel {
         return const DashboardView();
       case 1:
         return const TradeListView();
+      case 2:
+        return const PromoView();
     }
   }
 }

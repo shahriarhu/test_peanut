@@ -24,8 +24,14 @@ class TradeListView extends StatelessWidget {
               ? Padding(
                   padding:
                       EdgeInsets.all(UIHelper.responsiveBigPadding(context)),
+
+                  /// Checking the screen orientation
+
                   child: UIHelper.deviceWidth(context) >
                           UIHelper.deviceHeight(context)
+
+                      /// Landscape view
+
                       ? Row(
                           children: [
                             Entry.scale(
@@ -251,6 +257,9 @@ class TradeListView extends StatelessWidget {
                             ),
                           ],
                         )
+
+                      /// Portrait view
+
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

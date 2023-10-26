@@ -17,8 +17,6 @@ class SignInView extends StatelessWidget {
     return BaseView<SignInViewModel>(
       onModelReady: (model) async {
         model.setSavedPassword();
-        await model.getPromotions();
-        // model.parsePromotions(model.)
       },
       builder: (context, model, child) => Scaffold(
         body: SafeArea(
@@ -48,19 +46,25 @@ class SignInView extends StatelessWidget {
                         passwordField: model.isPasswordVisible ? false : true,
                         noBottomPadding: true,
                         trialWidget: Icon(
-                          model.isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                          model.isPasswordVisible
+                              ? Icons.visibility_off
+                              : Icons.visibility,
                           color: kMainColor,
                         ),
                         trialIconOnTap: () {
                           model.changeIsPasswordVisible();
                         },
                         controller: model.passwordController,
-                        formValidator: (input) => model.passwordValidator(input!),
+                        formValidator: (input) =>
+                            model.passwordValidator(input!),
                       ),
                       Row(
                         children: [
                           SizedBox(
-                            width: UIHelper.deviceWidth(context) > UIHelper.deviceHeight(context) ? UIHelper.deviceWidth(context) * 0.2 : 0,
+                            width: UIHelper.deviceWidth(context) >
+                                    UIHelper.deviceHeight(context)
+                                ? UIHelper.deviceWidth(context) * 0.2
+                                : 0,
                           ),
                           Checkbox(
                             value: model.isCredentialsSaved,

@@ -22,10 +22,14 @@ class DashboardView extends StatelessWidget {
         body: model.state == ViewState.idle
             ? SafeArea(
                 child: Padding(
+                  /// Checking the screen orientation
+
                   padding:
                       EdgeInsets.all(UIHelper.responsiveBigPadding(context)),
                   child: UIHelper.deviceWidth(context) >
                           UIHelper.deviceHeight(context)
+
+                      /// Landscape view
                       ? Row(
                           children: [
                             Entry.scale(
@@ -182,7 +186,10 @@ class DashboardView extends StatelessWidget {
                             const Spacer(),
                           ],
                         )
-                      : Column(
+                      :
+
+                      /// Portrait view
+                      Column(
                           children: [
                             Entry.scale(
                               duration: const Duration(milliseconds: 400),

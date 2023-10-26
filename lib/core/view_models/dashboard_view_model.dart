@@ -9,6 +9,8 @@ class DashboardViewModel extends BaseViewModel {
   final GlobalKey<FormState> formKey = GlobalKey();
   final DashboardAPI _dashboard = locator<DashboardAPI>();
 
+  /// GetAccountInformation
+
   UserProfileModel userProfile = UserProfileModel();
 
   Future<void> getAccountInformation() async {
@@ -18,6 +20,8 @@ class DashboardViewModel extends BaseViewModel {
 
     setViewState(ViewState.idle);
   }
+
+  /// GetLastFourNumbersPhone
 
   String lastFourNumbersPhone = '';
 
@@ -30,6 +34,8 @@ class DashboardViewModel extends BaseViewModel {
 
     return lastFourNumbersPhone;
   }
+
+  /// Used for uer profile button
 
   bool _isAccountSelected = true;
 

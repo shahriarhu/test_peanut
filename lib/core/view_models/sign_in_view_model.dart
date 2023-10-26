@@ -1,12 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_peanut/core/enums/view_state.dart';
 import 'package:test_peanut/core/services/authorization_api.dart';
 import 'package:test_peanut/core/view_models/base_view_model.dart';
 import 'package:test_peanut/locator.dart';
-import 'package:xml/xml.dart';
 
 class SignInViewModel extends BaseViewModel {
   final GlobalKey<FormState> formKey = GlobalKey();
@@ -14,6 +11,8 @@ class SignInViewModel extends BaseViewModel {
 
   final iDController = TextEditingController();
   final passwordController = TextEditingController();
+
+  /// To toggle obscure text (Password field)
 
   bool _isPasswordVisible = false;
 
@@ -23,6 +22,8 @@ class SignInViewModel extends BaseViewModel {
     _isPasswordVisible = !_isPasswordVisible;
     notifyListeners();
   }
+
+  /// Saving credentials only after a successful login
 
   Future<void> setSavedPassword() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -37,12 +38,15 @@ class SignInViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  /// Authentication (IsAccountCredentialsCorrect)
+
   Future<bool> signIn() async {
     setViewState(ViewState.busy);
 
     final SharedPreferences preferences = await SharedPreferences.getInstance();
 
-    int? returnedStatusCode = await _authorizationAPI.signInAPI(iDController.text, passwordController.text);
+    int? returnedStatusCode = await _authorizationAPI.signInAPI(
+        iDController.text, passwordController.text);
 
     setViewState(ViewState.idle);
 
@@ -63,6 +67,8 @@ class SignInViewModel extends BaseViewModel {
       return false;
     }
   }
+
+  /// Validator for credentials text field
 
   String? idValidator(String value) {
     if (value.isEmpty) {
@@ -95,110 +101,4 @@ class SignInViewModel extends BaseViewModel {
 
     notifyListeners();
   }
-
-  String? promotions;
-
-  Future<void> getPromotions() async {
-    setViewState(ViewState.busy);
-
-    // promotions =
-    (await _authorizationAPI.getPromotions());
-
-    // convertToJson(promotions!);
-
-    parsePromotions(promotions!);
-    // parseSoapResponse(promotions!);
-    // parseSoapResponse2(promotions!);
-
-    XmlDocument.parse(promotions!);
-
-    setViewState(ViewState.idle);
-  }
-
-  List<Promotion> parsePromotions(String xmlString) {
-    var xmlDocument = XmlDocument.parse(xmlString);
-    var promotions = <Promotion>[];
-
-    for (var item in xmlDocument.findAllElements('GetCCPromoResult')) {
-      var title = item.findElements('title').single.text;
-      var description = item.findElements('description').single.text;
-      var imageUrl = item.findElements('image_url').single.text.replaceAll('forex-images.instaforex.com', 'forex-images.ifxdb.com');
-      var link = item.findElements('link').single.text;
-
-      promotions.add(Promotion(title, description, imageUrl, link));
-    }
-
-    print('-------------------------------------------------------------');
-    print(promotions);
-    print('-------------------------------------------------------------');
-
-    return promotions;
-  }
-  //
-  // void parseSoapResponse(String responseBody) {
-  //   var document = XmlDocument.parse(responseBody);
-  //
-  //   // Assuming the SOAP response has a structure like:
-  //   // <s:Envelope><s:Body><InsertVisitCounterResponse><InsertVisitCounterResult>YOUR_RESULT_HERE</InsertVisitCounterResult></InsertVisitCounterResponse></s:Body></s:Envelope>
-  //   // Adjust the path accordingly based on the actual SOAP response structure
-  //
-  //   var resultElement = document.findAllElements('InsertVisitCounterResult').first;
-  //
-  //   var resultValue = resultElement.text;
-  //
-  //   print('Parsed result: $resultValue');
-  // }
-  //
-  // void parseSoapResponse2(String responseBody) {
-  //   var document = XmlDocument.parse(responseBody);
-  //
-  //   // Extract the GetCCPromoResult element's text (which contains the JSON content)
-  //   var jsonContent = document.findAllElements('GetCCPromoResult').single.text;
-  //
-  //   // Parse the JSON content
-  //   Map<String, dynamic> jsonData = json.decode(jsonContent);
-  //
-  //   // You can now access the values in jsonData as required
-  //   var forexCopy = jsonData['forex_copy'];
-  //   print('Forex Copy Image: ${forexCopy['image']}');
-  //   print('Forex Copy Text: ${forexCopy['text']}');
-  //   // ... and so on for other properties and other parts of the jsonData
-  //
-  //   var ferrari = jsonData['ferrari'];
-  //   print('Ferrari Image: ${ferrari['image']}');
-  //   print('Ferrari Text: ${ferrari['text']}');
-  //   // ... and so on for other properties
-  // }
-
-  void convertToJson(String xmlResponse) {
-    // Parse the XML response
-    var document = XmlDocument.parse(xmlResponse);
-
-    // Extract the JSON data from the XML response
-    var jsonData = document.findAllElements('GetCCPromoResult').first.text;
-
-    // Parse the JSON data
-    Map<String, dynamic> promoData = json.decode(jsonData);
-
-    // Access the individual promo items
-    var forexCopy = promoData['forex_copy'];
-    var ferrari = promoData['ferrari'];
-    var tether = promoData['tether'];
-    var luckyDeposit = promoData['lucky_deposit'];
-
-    // Use promoData as needed in your Dart code
-    print(forexCopy);
-    print(ferrari);
-    print(tether);
-    print(luckyDeposit);
-  }
-}
-
-class Promotion {
-  final String title;
-  final String description;
-  final String imageUrl;
-  final String link;
-
-  Promotion(this.title, this.description, this.imageUrl, this.link);
 }

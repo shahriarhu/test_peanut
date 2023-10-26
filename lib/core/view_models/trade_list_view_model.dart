@@ -9,6 +9,8 @@ class TradeListViewModel extends BaseViewModel {
   final GlobalKey<FormState> formKey = GlobalKey();
   final DashboardAPI _dashboard = locator<DashboardAPI>();
 
+  /// GetOpenTrades
+
   List<UserTradesModel> userTrades = [];
 
   Future<void> getOpenTrades() async {
@@ -29,6 +31,8 @@ class TradeListViewModel extends BaseViewModel {
       _totalProfit = _totalProfit + userTrade.profit!;
     }
   }
+
+  /// Converting ISO time format to normal
 
   String parseAndFormatDateTime(String inputDateTimeString) {
     DateTime parsedDateTime = DateTime.parse(inputDateTimeString);

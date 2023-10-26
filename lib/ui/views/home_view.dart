@@ -19,7 +19,11 @@ class HomeView extends StatelessWidget {
           title: Row(
             children: [
               Text(
-                model.currentPage == 0 ? 'User Profile' : 'Trades',
+                model.currentPage == 0
+                    ? 'User Profile'
+                    : model.currentPage == 1
+                        ? 'Trades'
+                        : 'Promo',
                 style: const TextStyle(
                   color: kScaffoldBackgroundColor,
                 ),
@@ -113,6 +117,17 @@ class HomeView extends StatelessWidget {
               icon: const Icon(Icons.handshake_rounded),
               title: const Text(
                 'Trades',
+                style: TextStyle(fontFamily: 'Quicksand'),
+              ),
+              selectedColor: kMainColor,
+              unselectedColor: kLightMainColor,
+            ),
+
+            /// Promo
+            SalomonBottomBarItem(
+              icon: const Icon(Icons.featured_play_list_rounded),
+              title: const Text(
+                'Promo',
                 style: TextStyle(fontFamily: 'Quicksand'),
               ),
               selectedColor: kMainColor,
