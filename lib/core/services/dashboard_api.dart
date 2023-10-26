@@ -14,8 +14,7 @@ import 'package:test_peanut/ui/widgets/simple_notification_widget.dart';
 class DashboardAPI {
   Future<UserProfileModel?> getAccountInformationAPI() async {
     try {
-      final SharedPreferences preferences =
-          await SharedPreferences.getInstance();
+      final SharedPreferences preferences = await SharedPreferences.getInstance();
       String? id = preferences.getString('userId');
       String? token = preferences.getString('token');
 
@@ -61,8 +60,7 @@ class DashboardAPI {
 
   Future<String?> getLastFourNumbersPhoneAPI() async {
     try {
-      final SharedPreferences preferences =
-          await SharedPreferences.getInstance();
+      final SharedPreferences preferences = await SharedPreferences.getInstance();
 
       String? id = preferences.getString('userId');
       String? token = preferences.getString('token');
@@ -111,8 +109,7 @@ class DashboardAPI {
 
   Future<List<UserTradesModel>?> getOpenTradesAPI() async {
     try {
-      final SharedPreferences preferences =
-          await SharedPreferences.getInstance();
+      final SharedPreferences preferences = await SharedPreferences.getInstance();
       String? id = preferences.getString('userId');
       String? token = preferences.getString('token');
 
@@ -129,8 +126,7 @@ class DashboardAPI {
       log(response.body);
 
       if (response.statusCode == 200) {
-        List<UserTradesModel> userTrades =
-            userTradesModelFromJson(response.body);
+        List<UserTradesModel> userTrades = userTradesModelFromJson(response.body);
 
         return userTrades;
       } else if (response.statusCode == 500) {
