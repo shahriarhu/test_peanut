@@ -7,9 +7,6 @@ import 'dart:convert';
 UserProfileModel userProfileModelFromJson(String str) =>
     UserProfileModel.fromJson(json.decode(str));
 
-String userProfileModelToJson(UserProfileModel data) =>
-    json.encode(data.toJson());
-
 class UserProfileModel {
   ExtensionData? extensionData;
   String? address;
@@ -28,8 +25,8 @@ class UserProfileModel {
   String? phone;
   double? totalTradesCount;
   double? totalTradesVolume;
-  int? type;
-  int? verificationLevel;
+  double? type;
+  double? verificationLevel;
   String? zipCode;
 
   UserProfileModel({
@@ -76,33 +73,10 @@ class UserProfileModel {
         phone: json["phone"],
         totalTradesCount: json["totalTradesCount"]?.toDouble(),
         totalTradesVolume: json["totalTradesVolume"]?.toDouble(),
-        type: json["type"],
-        verificationLevel: json["verificationLevel"],
+        type: json["type"]?.toDouble(),
+        verificationLevel: json["verificationLevel"]?.toDouble(),
         zipCode: json["zipCode"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "extensionData": extensionData?.toJson(),
-        "address": address,
-        "balance": balance,
-        "city": city,
-        "country": country,
-        "currency": currency,
-        "currentTradesCount": currentTradesCount,
-        "currentTradesVolume": currentTradesVolume,
-        "equity": equity,
-        "freeMargin": freeMargin,
-        "isAnyOpenTrades": isAnyOpenTrades,
-        "isSwapFree": isSwapFree,
-        "leverage": leverage,
-        "name": name,
-        "phone": phone,
-        "totalTradesCount": totalTradesCount,
-        "totalTradesVolume": totalTradesVolume,
-        "type": type,
-        "verificationLevel": verificationLevel,
-        "zipCode": zipCode,
-      };
 }
 
 class ExtensionData {

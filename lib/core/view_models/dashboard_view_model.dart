@@ -30,4 +30,14 @@ class DashboardViewModel extends BaseViewModel {
 
     return lastFourNumbersPhone;
   }
+
+  bool _isAccountSelected = true;
+
+  bool get isAccountSelected => _isAccountSelected;
+
+  set isAccountSelected(bool value) {
+    _isAccountSelected = value;
+
+    notifyListeners();
+  }
 }

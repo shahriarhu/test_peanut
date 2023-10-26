@@ -110,48 +110,51 @@ class DashboardAPI {
   }
 
   Future<List<UserTradesModel>?> getOpenTradesAPI() async {
-    // try {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    String? id = preferences.getString('userId');
-    String? token = preferences.getString('token');
+    try {
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+      String? id = preferences.getString('userId');
+      String? token = preferences.getString('token');
 
-    http.Response response = await http.post(
-      Uri.parse('${coreUrl}GetOpenTrades'),
-      headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-      body: jsonEncode({
-        'login': id,
-        'token': token,
-      }),
-    );
-
-    print(response.statusCode);
-    log(response.body);
-
-    if (response.statusCode == 200) {
-      List<UserTradesModel> userTrades = userTradesModelFromJson(response.body);
-
-      return userTrades;
-    } else if (response.statusCode == 500) {
-      await globalSignOut(
-        response.statusCode,
+      http.Response response = await http.post(
+        Uri.parse('${coreUrl}GetOpenTrades'),
+        headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+        body: jsonEncode({
+          'login': id,
+          'token': token,
+        }),
       );
-    } else {
-      simpleNotificationWidget(
-        statusCode: response.statusCode,
-        message: 'Invalid credentials',
-      );
+
+      print(response.statusCode);
+      log(response.body);
+
+      if (response.statusCode == 200) {
+        List<UserTradesModel> userTrades =
+            userTradesModelFromJson(response.body);
+
+        return userTrades;
+      } else if (response.statusCode == 500) {
+        await globalSignOut(
+          response.statusCode,
+        );
+      } else {
+        simpleNotificationWidget(
+          statusCode: response.statusCode,
+          message: 'Invalid credentials',
+        );
+      }
+      return null;
+    } on TimeoutException {
+      simpleNotificationWidget(message: 'Connection timeout');
+    } on SocketException {
+      simpleNotificationWidget(message: 'Please check your connection');
+    } on Error {
+      simpleNotificationWidget(message: 'Unexpected error occurred');
+    } on FormatException {
+      simpleNotificationWidget(message: 'Server is under maintenance');
+    } catch (e) {
+      simpleNotificationWidget(message: 'Something went wrong');
     }
-    // } on TimeoutException {
-    //   simpleNotificationWidget(message: 'Connection timeout');
-    // } on SocketException {
-    //   simpleNotificationWidget(message: 'Please check your connection');
-    // } on Error {
-    //   simpleNotificationWidget(message: 'Unexpected error occurred');
-    // } on FormatException {
-    //   simpleNotificationWidget(message: 'Server is under maintenance');
-    // } catch (e) {
-    //   simpleNotificationWidget(message: 'Something went wrong');
-    // }
-    // return null;
+    return null;
   }
 }

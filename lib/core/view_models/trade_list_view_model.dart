@@ -18,4 +18,34 @@ class TradeListViewModel extends BaseViewModel {
 
     setViewState(ViewState.idle);
   }
+
+  double _totalProfit = 0;
+
+  double get totalProfit => _totalProfit;
+
+  void totalProfitCalculation() {
+    _totalProfit = 0;
+    for (var userTrade in userTrades) {
+      _totalProfit = _totalProfit + userTrade.profit!;
+    }
+  }
+
+  String parseAndFormatDateTime(String inputDateTimeString) {
+    DateTime parsedDateTime = DateTime.parse(inputDateTimeString);
+
+    String formattedTime =
+        '${parsedDateTime.hour}:${parsedDateTime.minute}:${parsedDateTime.second}';
+
+    String formattedDate =
+        '${parsedDateTime.year}-${_twoDigits(parsedDateTime.month)}-${_twoDigits(parsedDateTime.day)}';
+
+    return 'Time: $formattedTime        Date: $formattedDate';
+  }
+
+  String _twoDigits(int n) {
+    if (n >= 10) {
+      return '$n';
+    }
+    return '0$n';
+  }
 }

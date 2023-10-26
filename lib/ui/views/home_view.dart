@@ -100,7 +100,10 @@ class HomeView extends StatelessWidget {
             /// Profile
             SalomonBottomBarItem(
               icon: const Icon(Icons.person_rounded),
-              title: const Text('Profile'),
+              title: const Text(
+                'Profile',
+                style: TextStyle(fontFamily: 'Quicksand'),
+              ),
               selectedColor: kMainColor,
               unselectedColor: kLightMainColor,
             ),
@@ -108,7 +111,10 @@ class HomeView extends StatelessWidget {
             /// Search
             SalomonBottomBarItem(
               icon: const Icon(Icons.handshake_rounded),
-              title: const Text('Trades'),
+              title: const Text(
+                'Trades',
+                style: TextStyle(fontFamily: 'Quicksand'),
+              ),
               selectedColor: kMainColor,
               unselectedColor: kLightMainColor,
             ),

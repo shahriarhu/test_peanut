@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_peanut/locator.dart';
 import 'package:test_peanut/ui/route_navigation.dart';
-import 'package:test_peanut/ui/shared/app_colors.dart';
+import 'package:test_peanut/ui/shared/theme_provider.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -32,14 +32,7 @@ Future<void> main() async {
       navigatorObservers: [
         BotToastNavigatorObserver(),
       ],
-      theme: ThemeData(
-          scaffoldBackgroundColor: kScaffoldBackgroundColor,
-          colorScheme: const ColorScheme.light().copyWith(
-            secondary: kLightMainColor,
-          ),
-          appBarTheme: const AppBarTheme(
-            backgroundColor: kMainColor,
-          )),
+      theme: CustomThemeProvider.customLightTheme,
       title: 'Peanut',
       initialRoute:
           isSignedIn == null ? RouteNavigation.signIn : RouteNavigation.home,
